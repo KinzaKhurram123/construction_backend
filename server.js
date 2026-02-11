@@ -2,9 +2,10 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
-// const errorHandler = require("./middleware/errorMiddlerware");
-// const swaggerUI = require("swagger-ui-express");
-// const swaggerSpec = require("./swagger");
+const router = require("./routes/authRoutes");
+const errorHandler = require("./middleware/errorMiddleware");
+const swaggerUI = require("swagger-ui-express");
+const swaggerSpec = require("./swagger");
 
 dotenv.config();
 connectDB();
@@ -12,8 +13,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-
-// app.use('/api/auth', require('./routes/authRoutes'));
+router.get("/test", (req, res) => {
+    res.send("Auth route OK");
+});
+app.use('/api/auth', require('./routes/authRoutes'));
 // app.use('/api/users', require('./routes/userRoutes'));
 // app.use('/api/doctors', require('./routes/doctorRoutes'));
 // app.use('/api/paitents', require('./routes/patientsRoutes'));
@@ -22,7 +25,7 @@ app.use(cors());
 
 // app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
-// app.use(errorHandler);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`));

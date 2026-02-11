@@ -14,7 +14,6 @@ exports.registerUser = async (req, res) => {
       name,
       email,
       password,
-      role,
       phoneNumber,
     });
 
@@ -23,7 +22,6 @@ exports.registerUser = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role,
         phoneNumber: user.phoneNumber,
         token: generateToken(user._id),
       });
@@ -108,7 +106,6 @@ exports.resetPassword = async (req, res) => {
     if (password !== confirmpassword) {
       return res.status(400).json({ error: "Passwords do not match" });
     }
-    console.log('hellllllllllllllllllllllllllllo')
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ error: "Invalid Email" });
